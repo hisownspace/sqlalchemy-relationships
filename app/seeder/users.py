@@ -8,19 +8,24 @@ fake = Faker()
 # Adds a demo user, you can add other users here if you want
 def seed_users():
 
-    users = set()
+    usernames = set()
 
-    for i in range(100):
-        user = fake.name().split(" ")[0]
-        if "." not in user:
-            users.add(User(username=user))
+    for i in range(50):
+        username = fake.name().split(" ")[0]
+        if "." not in username:
+            usernames.add(username)
+    
+    users = []
 
-    for user in users:
+    for username in usernames:
+        user = User(username=username)
         db.session.add(user)
+        users.append(user)
+
 
     db.session.commit()
 
-    return list(users)
+    return users
 
 
 # Uses a raw SQL query to TRUNCATE the users table.

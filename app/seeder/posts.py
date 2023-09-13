@@ -1,7 +1,6 @@
-from random import randint
+from random import choice
 from sqlalchemy.sql import text
 from app.models import db, Post
-from random import choice
 
 
 def seed_posts(users):
@@ -23,7 +22,7 @@ def seed_posts(users):
     post_15 = "Unfunny joke!"
     
 
-    posts = [   
+    post_content = [   
                 post_1,
                 post_2,
                 post_3,
@@ -41,11 +40,13 @@ def seed_posts(users):
                 post_15
             ]
 
+    posts = []
 
-    for i in range(500):
-        new_post = Post(content=choice(posts))
+    for i in range(200):
+        new_post = Post(content=choice(post_content))
         new_post.user = choice(users)
         db.session.add(new_post)
+        posts.append(new_post)
 
     db.session.commit()
     return posts
