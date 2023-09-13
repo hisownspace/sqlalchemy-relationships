@@ -1,22 +1,26 @@
 from app.models import db, User
 from sqlalchemy.sql import text
+from faker import Faker
+
+fake = Faker()
 
 
 # Adds a demo user, you can add other users here if you want
 def seed_users():
-    demo = User(username="Demo")
-    marnie = User(username="marnie")
-    bobbie = User(username="bobbie")
-    admin = User(username="admin")
 
-    db.session.add(demo)
-    db.session.add(marnie)
-    db.session.add(bobbie)
-    db.session.add(admin)
+    users = set()
+
+    for i in range(100):
+        user = fake.name().split(" ")[0]
+        if "." not in user:
+            users.add(User(username=user))
+
+    for user in users:
+        db.session.add(user)
 
     db.session.commit()
 
-    return {"user_1": demo, "user_2": marnie, "user_3": bobbie, "user_4": admin}
+    return list(users)
 
 
 # Uses a raw SQL query to TRUNCATE the users table.

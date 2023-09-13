@@ -1,36 +1,54 @@
 from random import randint
 from sqlalchemy.sql import text
 from app.models import db, Post
+from random import choice
 
 
 def seed_posts(users):
-    users = list(users.values())
-    post_1 = {"content": "Insane gibberish!"}
-    post_2 = {"content": "Empty rhetoric!"}
-    post_3 = {"content": "Something about cats"}
-    post_4 = {"content": "Controversial statement!"}
-    post_5 = {"content": "Funny joke!"}
-    post_6 = {"content": "Heartwarming story!"}
-    post_7 = {"content": "Angry ranting!"}
-    post_8 = {"content": "Thoughtful musings!"}
+    post_1 = "Insane gibberish!"
+    post_2 = "Empty rhetoric!"
+    post_3 = "Something about cats"
+    post_4 = "Controversial statement!"
+    post_5 = "Funny joke!"
+    post_6 = "Heartwarming story!"
+    post_7 = "Angry ranting!"
+    post_8 = "Thoughtful musings!"
+    post_9 = "Political garbage!"
+    post_10 = "Random anecdote!"
+    post_11 = "Plea for money!"
+    post_12 = "Throwing someone under the bus!"
+    post_12 = "Simping for a billionaire."
+    post_13 = "Hating on a stranger!"
+    post_14 = "Irrational Exuberance!"
+    post_15 = "Unfunny joke!"
+    
 
-    posts = [post_1, post_2, post_3, post_4, post_5, post_6, post_7, post_8]
-    posts_dic = {}
-    for idx, post in enumerate(posts):
-        this_post = Post(**post)
-        posts_dic[f"post_{idx+1}"] = this_post
-        while idx >= len(users) - 1:
-            idx -= len(users)
-        this_post.user = users[idx]
-        for x in range(3):
-            num = randint(0, len(users) - 1)
-            if this_post.user is not users[num] and users[num] not in this_post.likes:
-                this_post.likes.append(users[num])
-            db.session.add(this_post)
-        db.session.add(this_post)
+    posts = [   
+                post_1,
+                post_2,
+                post_3,
+                post_4,
+                post_5,
+                post_6,
+                post_7,
+                post_8,
+                post_9,
+                post_10,
+                post_11,
+                post_12,
+                post_13,
+                post_14,
+                post_15
+            ]
+
+
+    for i in range(500):
+        new_post = Post(content=choice(posts))
+        new_post.user = choice(users)
+        db.session.add(new_post)
 
     db.session.commit()
-    return posts_dic
+    return posts
 
 
 def undo_posts():

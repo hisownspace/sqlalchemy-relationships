@@ -16,8 +16,8 @@ def seed():
 
 # @seed_commands.command('undoes')
 def undo():
-    undo_users()
     undo_posts()
+    undo_users()
     # undo_comments()
 
 

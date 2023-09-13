@@ -15,17 +15,17 @@ def seed_comments(posts, users):
     # post_7 = posts["post_7"]
     # post_8 = posts["post_8"]
 
-    comment_1 = Comment(user=user_1, post=post_1, content="Good point, man!!!")
-    comment_2 = Comment(user=user_1, post=post_1, content="Good point, man!!!")
-    comment_3 = Comment(user=user_1, post=post_1, content="Good point, man!!!")
-    comment_4 = Comment(user=user_1, post=post_2, content="Good point, man!!!")
-    comment_5 = Comment(user=user_1, post=post_2, content="Good point, man!!!")
-    comment_6 = Comment(user=user_2, post=post_3, content="Good point, man!!!")
-    comment_7 = Comment(user=user_2, post=post_3, content="Good point, man!!!")
-    comment_8 = Comment(user=user_2, post=post_3, content="Good point, man!!!")
-    comment_9 = Comment(user=user_2, post=post_4, content="Good point, man!!!")
-    comment_10 = Comment(user=user_2, post=post_4, content="Good point, man!!!")
-    comment_11 = Comment(user=user_2, post=post_4, content="Good point, man!!!")
+    comment_1 = Comment(user=user_1, post=post_1, content="Good point, buddy!!!")
+    comment_2 = Comment(user=user_1, post=post_1, content="Good point, buddy!!!")
+    comment_3 = Comment(user=user_1, post=post_1, content="Good point, buddy!!!")
+    comment_4 = Comment(user=user_1, post=post_2, content="Good point, buddy!!!")
+    comment_5 = Comment(user=user_1, post=post_2, content="Good point, buddy!!!")
+    comment_6 = Comment(user=user_2, post=post_3, content="Good point, buddy!!!")
+    comment_7 = Comment(user=user_2, post=post_3, content="Good point, buddy!!!")
+    comment_8 = Comment(user=user_2, post=post_3, content="Good point, buddy!!!")
+    comment_9 = Comment(user=user_2, post=post_4, content="Good point, buddy!!!")
+    comment_10 = Comment(user=user_2, post=post_4, content="Good point, buddy!!!")
+    comment_11 = Comment(user=user_2, post=post_4, content="Good point, buddy!!!")
 
     comments = [
         comment_1,
