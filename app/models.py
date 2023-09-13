@@ -13,12 +13,6 @@ metadata = MetaData(
 
 db = SQLAlchemy(metadata=metadata)
 
-follows = db.Table(
-    "follows",
-    db.Column("follower", db.Integer, db.ForeignKey("users.id"), primary_key=True),
-    db.Column("followed", db.Integer, db.ForeignKey("users.id"), primary_key=True),
-)
-
 user_likes = db.Table(
     "user_likes",
     db.Column("user_id", db.Integer, db.ForeignKey("users.id"), primary_key=True),
@@ -41,32 +35,6 @@ class User(db.Model):
         back_populates="likes",
     )
 
-    followers = db.relationship(
-        "User",
-        secondary="follows",
-        # this user will be placed into this column
-        primaryjoin=follows.columns.followed == id,
-        # the other user will be placed into this column
-        secondaryjoin=follows.c.follower == id,
-        # which is which doesn't technically matter, the follows column could
-        # just be labeled a and b, for example, but make sure you're consistent
-        # with backref, the other attribute is automatically created, it also
-        # behaves differently with regard to cascading
-        # backref="followed",
-        back_populates="followed",
-    )
-
-    followed = db.relationship(
-        "User",
-        secondary="follows",
-        primaryjoin=follows.c.follower == id,
-        secondaryjoin=follows.c.followed == id,
-        back_populates="followers"
-        # determines how a change in this table effects the others
-        # cascade="delete-orphan, all"
-    )
-
-
 class Post(db.Model):
     __tablename__ = "posts"
 
@@ -85,15 +53,3 @@ class Post(db.Model):
             "user": self.user.id,
             "user_likes": [user.id for user in self.user_likes],
         }
-
-
-class Comment(db.Model):
-    __tablename__ = "comments"
-
-    id = db.Column(db.Integer)
-    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"), primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
-    content = db.Column(db.String(2000))
-
-    post = db.relationship("Post", back_populates="comments")
-    user = db.relationship("User", back_populates="comments")
