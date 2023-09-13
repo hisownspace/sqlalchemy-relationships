@@ -54,5 +54,4 @@ def seed_posts(users):
 
 def undo_posts():
     db.session.execute(text("DELETE FROM posts;"))
-    db.session.execute(text("DELETE FROM user_likes;"))
     db.session.commit()
