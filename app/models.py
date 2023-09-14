@@ -27,13 +27,10 @@ class User(db.Model):
     username = db.Column(db.String, nullable=False)
 
     # Relationships
-    posts = db.relationship("Post", back_populates="user", cascade="all, delete-orphan")
-    comments = db.relationship("Comment", back_populates="user")
-    likes = db.relationship(
-        "Post",
-        secondary="user_likes",
-        back_populates="likes",
-    )
+
+    posts = db.relationship("Post", back_populates="user")
+
+    likes = db.relationship("Post", secondary="user_likes", back_populates="likes",)
 
 class Post(db.Model):
     __tablename__ = "posts"
@@ -43,8 +40,9 @@ class Post(db.Model):
     content = db.Column(db.String(2000), nullable=False)
 
     # Relationships
+
     user = db.relationship("User", back_populates="posts")
-    comments = db.relationship("Comment", back_populates="post")
+
     likes = db.relationship("User", secondary="user_likes", back_populates="likes")
 
     def to_dict(self):
