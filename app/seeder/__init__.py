@@ -27,10 +27,12 @@ def reset_all():
     undo()
     seed()
 
+
 @seed_commands.command("likes")
 def reset_likes():
     undo_likes()
 
+
 @seed_commands.command("posts")
-def reset_likes():
+def reset_posts():
     undo_posts()
