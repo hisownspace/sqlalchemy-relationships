@@ -33,38 +33,35 @@ class User(db.Model):
     username = db.Column(db.String, nullable=False)
 
     # Relationships
-    posts = db.relationship("Post", back_populates="user", cascade="all, delete-orphan")
+    posts = db.relationship("Post", back_populates="user", cascade="delete-orphan, all")
     comments = db.relationship("Comment", back_populates="user")
-    likes = db.relationship(
+    liked_posts = db.relationship(
         "Post",
         secondary="user_likes",
-        back_populates="likes",
+        back_populates="user_likes",
     )
 
     followers = db.relationship(
         "User",
         secondary="follows",
         # this user will be placed into this column
-        primaryjoin=follows.columns.followed == id,
+        primaryjoin=follows.columns.follower == id,
         # the other user will be placed into this column
-        secondaryjoin=follows.c.follower == id,
+        secondaryjoin=follows.c.followed == id,
         # which is which doesn't technically matter, the follows column could
         # just be labeled a and b, for example, but make sure you're consistent
-        # with backref, the other attribute is automatically created, it also
-        # behaves differently with regard to cascading
-        # backref="followed",
-        back_populates="followed",
+        # with backref, the other attribute is automatically created
+        backref="following",
+        # back_populates="followed",
     )
 
-    followed = db.relationship(
-        "User",
-        secondary="follows",
-        primaryjoin=follows.c.follower == id,
-        secondaryjoin=follows.c.followed == id,
-        back_populates="followers"
-        # determines how a change in this table effects the others
-        # cascade="delete-orphan, all"
-    )
+    # following = db.relationship(
+    #     "User",
+    #     secondary="follows",
+    #     primaryjoin=follows.c.follower == id,
+    #     secondaryjoin=follows.c.followed == id,
+    #     back_populates="followers",
+    # )
 
 
 class Post(db.Model):
@@ -77,7 +74,11 @@ class Post(db.Model):
     # Relationships
     user = db.relationship("User", back_populates="posts")
     comments = db.relationship("Comment", back_populates="post")
-    likes = db.relationship("User", secondary="user_likes", back_populates="likes")
+    user_likes = db.relationship(
+        "User",
+        secondary="user_likes",
+        back_populates="liked_posts",
+    )
 
     def to_dict(self):
         return {
