@@ -1,4 +1,5 @@
 from sqlalchemy import MetaData
+from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass
 from flask_sqlalchemy import SQLAlchemy
 
 metadata = MetaData(
@@ -13,8 +14,8 @@ metadata = MetaData(
 
 db = SQLAlchemy(metadata=metadata)
 
-user_likes = db.Table(
-    "user_likes",
+post_user_likes = db.Table(
+    "post_user_likes",
     db.Column("user_id", db.Integer, db.ForeignKey("users.id"), primary_key=True),
     db.Column("post_id", db.Integer, db.ForeignKey("posts.id"), primary_key=True),
 )
@@ -30,7 +31,12 @@ class User(db.Model):
 
     posts = db.relationship("Post", back_populates="user")
 
-    likes = db.relationship("Post", secondary="user_likes", back_populates="likes",)
+    liked_posts = db.relationship(
+        "Post",
+        secondary="post_user_likes",
+        back_populates="user_likes",
+    )
+
 
 class Post(db.Model):
     __tablename__ = "posts"
@@ -43,7 +49,9 @@ class Post(db.Model):
 
     user = db.relationship("User", back_populates="posts")
 
-    likes = db.relationship("User", secondary="user_likes", back_populates="likes")
+    user_likes = db.relationship(
+        "User", secondary="post_user_likes", back_populates="liked_posts"
+    )
 
     def to_dict(self):
         return {

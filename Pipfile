@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-sqlalchemy = "==1.4.45"
+sqlalchemy = "*"
 alembic = "*"
 flask = "*"
 flask-sqlalchemy = "*"
@@ -16,3 +16,4 @@ faker = "*"
 
 [requires]
 python_version = "3.9"
+python_full_version = "3.9.4"
