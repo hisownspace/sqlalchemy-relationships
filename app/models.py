@@ -45,23 +45,23 @@ class User(db.Model):
         "User",
         secondary="follows",
         # this user will be placed into this column
-        primaryjoin=follows.columns.follower == id,
+        primaryjoin=follows.columns.followed == id,
         # the other user will be placed into this column
-        secondaryjoin=follows.c.followed == id,
+        secondaryjoin=follows.columns.follower == id,
         # which is which doesn't technically matter, the follows column could
         # just be labeled a and b, for example, but make sure you're consistent
         # with backref, the other attribute is automatically created
-        backref="following",
-        # back_populates="followed",
+        # backref="following",
+        back_populates="following",
     )
 
-    # following = db.relationship(
-    #     "User",
-    #     secondary="follows",
-    #     primaryjoin=follows.c.follower == id,
-    #     secondaryjoin=follows.c.followed == id,
-    #     back_populates="followers",
-    # )
+    following = db.relationship(
+        "User",
+        secondary="follows",
+        primaryjoin=follows.c.follower == id,
+        secondaryjoin=follows.c.followed == id,
+        back_populates="followers",
+    )
 
 
 class Post(db.Model):
